@@ -1,0 +1,5 @@
+#history config
+sed -i 's/^HISTSIZE=.*$/HISTSIZE=100000/' /etc/profile
+cat << EOF >> /etc/profile
+export HISTTIMEFORMAT="%F %T `whoami` "
+EOF

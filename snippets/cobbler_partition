@@ -1,0 +1,31 @@
+app_partition(){
+	get_mem=`cat /proc/meminfo | grep MemTotal | awk '{printf("%d",$2/1024)}'`
+	echo "" > /tmp/partition.ks
+	echo "clearpart --all --initlabel" >> /tmp/partition.ks
+	echo "part /boot --fstype=ext4 --ondisk=sda --size=2048" >> /tmp/partition.ks
+	echo "part pv.01 --size 1 --grow --ondisk=sda" >> /tmp/partition.ks
+	echo "volgroup vg_os pv.01" >> /tmp/partition.ks
+	echo "logvol swap --size=${get_mem} --fstype=swap --name=swap --vgname=vg_os" >> /tmp/partition.ks
+	echo "logvol /usr --size=2048 --fstype=ext4 --name=lv_usr --vgname=vg_os" >> /tmp/partition.ks
+	echo "logvol / --size=1 --fstype="ext4" --name=lv_root --vgname=vg_os --grow" >> /tmp/partition.ks
+}
+
+db_partition(){
+	get_mem=`cat /proc/meminfo | grep MemTotal | awk '{printf("%d",$2/1024)}'`
+	echo "" > /tmp/partition.ks
+	echo "clearpart --all --initlabel" >> /tmp/partition.ks
+	echo "part /boot --fstype=ext3 --ondisk=sda --size=2048" >> /tmp/partition.ks
+	echo "part pv.01 --size 1 --grow --ondisk=sda" >> /tmp/partition.ks
+	echo "volgroup vg_os pv.01" >> /tmp/partition.ks
+	echo "logvol swap --size=${get_mem} --fstype=swap --name=swap --vgname=vg_os" >> /tmp/partition.ks
+	echo "logvol /usr --size=4096 --fstype=ext3 --name=lv_usr --vgname=vg_os" >> /tmp/partition.ks
+	echo "logvol /    --size=1      --fstype=ext3 --name=lv_root --vgname=vg_os --grow" >> /tmp/partition.ks
+}
+
+#set hostname = $getVar('hostname','')
+#if $hostname == 'cobbler1'
+app_partition
+#else if $hostname == 'cobbler2'
+db_partition
+#end if
+

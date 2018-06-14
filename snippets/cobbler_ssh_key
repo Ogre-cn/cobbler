@@ -1,0 +1,8 @@
+# add sshkey
+mkdir /root/.ssh
+chmod 700 /root/.ssh
+cat <<EOF > /root/.ssh/authorized_keys
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCNzaC1yc2EAAANzaC1yc2EAAANzaC1yc2EAAA centos7@123.com
+EOF
+chmod 600 /root/.ssh/authorized_keys
+chown root:root /root/.ssh/

@@ -1,0 +1,6 @@
+#update time
+yum -y install chrony
+sed -i 's/^server.*//g' /etc/chrony.conf
+echo -e "server 192.168.0.1 iburst\nserver 192.168.0.2 iburst" >> /etc/chrony.conf
+systemctl restart chronyd
+systemctl enable chronyd

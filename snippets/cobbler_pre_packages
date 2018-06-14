@@ -1,0 +1,15 @@
+# install base rpm package
+#set hostname = $getVar('hostname','')
+#if $hostname == 'cobbler1'
+@base
+@core
+@performance
+bash-completion
+tree
+#else if $hostname == 'cobbler2'
+@base
+@core
+@performance
+bash-completion
+lrzsz
+#end if
